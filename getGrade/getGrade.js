@@ -7,8 +7,10 @@ $(document).ready(function() {
 
 	//add value of all elements in assignmentScores that are centered to arr (grades are the only centered thing)
 	$('#assignmentScores').each(function()
-		arr[i++] = $(this).attr('td [align="center"]');
-	);
+        if(isNaN($(this).attr('td [align="center"]')){
+            arr[i++] = $(this).attr('td [align="center"]');
+        }
+  	);
 
 	//for every item in the array, add up numerators and denominators
 	for each(var item in numerator){
