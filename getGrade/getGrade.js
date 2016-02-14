@@ -25,6 +25,6 @@ function() {
 // Calculate the percent - but only if we actually have a numerator / denomenator
 percent = (num && den) ? (num / den) * 100 : 0;
 // And, for fun, append the values to the table
-table.append('<tr><td colspan="' + score_column + '" style="text-align:right;">Total:</td><td>' + percent.toFixed(1) + '%</td></tr>');
+table.append('<tr><td colspan="' + score_column + '" style="text-align:right;">Total:</td><td>' + percent.toFixed(2) + '%</td></tr>');
 
 //Thank you to cale_b on stackoverflow for helping (doing the whole thing)
