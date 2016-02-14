@@ -5,7 +5,7 @@ var table = $('#assignmentScores table');
 // Which column is the score in? Find it here
 var score_column = table.find('th:contains("Score")').index();
 // Set up a regular expression for testing that the column contains something like '30/30'
-var regex = /(\d+)\/(\d+)/;
+var regex = /(\d+\.?\d*)\/(\d+)/;
 // initialize the numerator and denomenator
 var num = 0, den = 0;
 // loop over all the table rows
