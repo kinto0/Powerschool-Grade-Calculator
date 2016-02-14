@@ -1,0 +1,40 @@
+{
+  // Required
+  "manifest_version": 2,
+  "name": "PowerSchool getGrades",
+  "version": "0.1",
+  "author": "Kyle Into",
+  "background":{
+      "page":"background.html"
+    },
+
+  // Recommended
+  "description": "Gets grades from powerschool and writes them on the page",
+
+  // Pick one (or none)
+    "page_action": {
+      "default_title":"Get Grades",
+      "default_popup": "popup.html"
+      },
+
+
+  //content scripts
+  "content_scripts": [
+  {
+    "matches": ["http://ps.psharvard.org/*"],
+    "js": ["jquery.min.js", "getGrade.js"],
+    "run_at": "document_end"
+    }],
+
+
+  // Optional
+
+  "options_page": "options.html",
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
+  "permissions": ["storage"]
+
+
+}
