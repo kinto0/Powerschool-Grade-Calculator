@@ -1,6 +1,6 @@
 // Saves options to chrome.storage
 function save_options() {
-  var url = document.getElementById('url').value;
+  var url = document.getElementById('urlin').value;
   chrome.storage.sync.set({
     pageUrl: url,
   }, function() {

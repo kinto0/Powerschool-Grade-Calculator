@@ -1,23 +1,20 @@
 {
-  // Required
   "manifest_version": 2,
-  "name": "PowerSchool getGrades",
-  "version": "0.1",
+  "name": "PowerSchool Calculate Grades",
+  "version": "1.0",
   "author": "Kyle Into",
-/*  "background":{
-      "page":"background.html"
-    },*/
-
-  // Recommended
-  "description": "Gets grades from Powerschool and writes them on the page",
-
-    "page_action": {
-      "default_title":"Get PowerSchool Grades",
-      "default_popup": "popup.html"
-      },
+  "description": "An extension that will automatically calculate your grades for powerschool and print them out on the page",
+  "icons":{
+    "128":"image.png"
+    },
 
 
-  //content scripts
+  "page_action": {
+    "default_title":"Get PowerSchool Grades",
+    "default_popup": "options.html"
+    },
+
+
   "content_scripts": [
   {
     "matches": ["https://ps.psharvard.org/*"],
@@ -25,7 +22,6 @@
     }],
 
 
-  // Optional
 
   "options_page": "options.html",
   "options_ui": {
