@@ -4,16 +4,15 @@
   "name": "PowerSchool getGrades",
   "version": "0.1",
   "author": "Kyle Into",
-  "background":{
+/*  "background":{
       "page":"background.html"
-    },
+    },*/
 
   // Recommended
-  "description": "Gets grades from powerschool and writes them on the page",
+  "description": "Gets grades from Powerschool and writes them on the page",
 
-  // Pick one (or none)
     "page_action": {
-      "default_title":"Get Grades",
+      "default_title":"Get PowerSchool Grades",
       "default_popup": "popup.html"
       },
 
@@ -21,9 +20,8 @@
   //content scripts
   "content_scripts": [
   {
-    "matches": ["http://ps.psharvard.org/*"],
-    "js": ["jquery.min.js", "getGrade.js"],
-    "run_at": "document_end"
+    "matches": ["https://ps.psharvard.org/*"],
+    "js": ["jquery.min.js", "getGrade.js"]
     }],
 
 
