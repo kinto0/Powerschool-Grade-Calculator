@@ -39,7 +39,9 @@ table.find('tr').each(
         //category stuff
         //gets value from category column
         var category = $(this).find('td:eq(' + cat_column + ')').html();
-        if (c > 0) catArray.push(category);
+        if (c > 0){
+            catArray.push(category);
+        }
         //if table already includes that category trash it and the != undefined doesn't work for some reason
         if (!(wTable.indexOf(category) > -1 && category != 'undefined')) {
             wTable += ("<tr><td>" + category + "</td><td><input type='text'></td></tr>");
@@ -69,14 +71,46 @@ $("#showWeight").change(function() {
     }
 });
 
-
 //handle "calculate" button clicks
 $('#button').click(function() {
-    for (j = 0; j < catArray.length; j++) {
-        console.log(catArray[j] + " " + scoreArrayNum[j] + "/" + scoreArrayDen[j]);
-    }
+    //the array that will hold the different unqiue categories                                                   merged individual category array
+    var lessCat = [];
+    //the parallel array that will hold the number of each category at the same index    # of elements in full array
+    var catNum = [];
+    //cat NUMBER NUMERATOR fuck me                                                                                                      
+    var catNumNum = [];
+    //cat number denominator kill me
+    var catNumDen = [];
 
-    
+        //creates lessCat array by excluding catArray values that are used multiple times
+    for (j = 0; j < catArray.length; j++) {
+        if($.inArray(catArray[j], lessCat) == -1){
+            lessCat.push(catArray[j]);
+        }
+    }
+    //go through every element in j
+    for(j = 0; j < catArray.length; j++){
+        //for each element, check if it's equal to any value of lessCat
+        for(k = 0; k < lessCat.length; k++){
+            //Assign an integer to the catNum array for each value of catArray corresponding to the element of lessCat
+            if(catArray[j] === lessCat[k]){
+                catNum[j]=k;
+            }
+        }
+    }
+    console.log(catArray.toString());
+    console.log(lessCat.toString());
+    console.log(catNum.toString());
+
+    for(j = 0; j < catNum.length; j++){
+        for(k = 0; k < catArray.length; k++){
+            if(catNum[k] = j){
+                catNumNum[k] += scoreArrayNum;
+                catNumDen[k] += scoreArrayDen;
+            }
+        }
+    }
+    console.log(catNumNum[0] + "/" + catNumDen[0]);
 });
 
 
