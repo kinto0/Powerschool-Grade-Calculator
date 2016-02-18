@@ -11,7 +11,7 @@ var num = 0,
 //initialize starting score
 var wScore = 0;
 //initialize category table
-var wTable = "<table id='wTable' border='0' cellpadding='0' cellspacing='0' align='center' width='99%'> <tbody> <tr> <th>Category</th> <th>Percent</th> </tr>";
+var wTable = "<table id='wTable' border='0' cellpadding='0' cellspacing='0' align='center' width='99%'> <tbody> <tr> <th>Category</th> <th>Percent (Do not write % sign)</th> </tr>";
 
 //parrallel arrays for category and score
 var catArray = [];
@@ -44,12 +44,17 @@ table.find('tr').each(
         }
         //if table already includes that category trash it and the != undefined doesn't work for some reason
         if (!(wTable.indexOf(category) > -1 && category != 'undefined')) {
-            wTable += ("<tr><td>" + category + "</td><td><input type='text'></td></tr>");
+        	if(c%2==0){
+        		wTable += ("<tr class='oddRow'><td>" + category + "</td><td><input type='text' id='" + c + "''></td></tr>");
+        	}
+        	else{
+        		wTable += ("<tr><td>" + category + "</td><td><input type='text' id='" + c + "''></td></tr>");
+        	}
+        	c++;
         }
-        c++;
     });
 //finish off table
-wTable += "<tr><td><button type='button' id='button'>Calculate</button></td><td>Total Grade: " + wScore + "</td></tr></tbody></table>";
+wTable += "<tr><td><button type='button' id='button'>Calculate</button></td><td>Total Score: " + wScore + "</td></tr></tbody></table>";
 // Calculate the percent - but only if we actually have a numerator / denomenator
 percent = (num && den) ? (num / den) * 100 : 0;
 // And, append the values to the table
@@ -77,10 +82,6 @@ $('#button').click(function() {
     var lessCat = [];
     //the parallel array that will hold the number of each category at the same index    # of elements in full array
     var catNum = [];
-    //cat NUMBER NUMERATOR fuck me                                                                                                      
-    var catNumNum = [];
-    //cat number denominator kill me
-    var catNumDen = [];
 
         //creates lessCat array by excluding catArray values that are used multiple times
     for (j = 0; j < catArray.length; j++) {
@@ -88,9 +89,15 @@ $('#button').click(function() {
             lessCat.push(catArray[j]);
         }
     }
-    //go through every element in j
+    //cat NUMBER NUMERATOR fuck me                                                                                                      
+    var catNumNum = [0, 0, 0, 0];
+    //cat number denominator kill me
+    var catNumDen = [0, 0, 0, 0];
+
+    //go through every element in the array of categories
     for(j = 0; j < catArray.length; j++){
-        //for each element, check if it's equal to any value of lessCat
+
+        //for each element, check if it's equal to any from the rubric, it will assign a number based on lessCat
         for(k = 0; k < lessCat.length; k++){
             //Assign an integer to the catNum array for each value of catArray corresponding to the element of lessCat
             if(catArray[j] === lessCat[k]){
@@ -98,19 +105,40 @@ $('#button').click(function() {
             }
         }
     }
-    console.log(catArray.toString());
-    console.log(lessCat.toString());
-    console.log(catNum.toString());
 
-    for(j = 0; j < catNum.length; j++){
-        for(k = 0; k < catArray.length; k++){
-            if(catNum[k] = j){
-                catNumNum[k] += scoreArrayNum;
-                catNumDen[k] += scoreArrayDen;
-            }
-        }
+    //go through every category
+    for(j = 0; j < catArray.length; j++){
+    	//if the category is equal to one of the categories, we will add the value of the category to the num/den variables
+    	for(k = 0; k < lessCat.length; k++){
+    		if(typeof scoreArrayNum[j] !== 'undefined' &&  catArray[j] === lessCat[catNum[k]]){
+    			catNumNum[k] += +scoreArrayNum[j];
+    			catNumDen[k] += +scoreArrayDen[j];
+    		}
+    	}
     }
-    console.log(catNumNum[0] + "/" + catNumDen[0]);
+	var c = 0;
+    $("#weight-box input[type=text]").each(function() {
+    	catNumNum[c]*=this.value;
+    	catNumDen[c]*=this.value;
+    	c++;
+    	console.log(catNumNum);
+    	console.log(catNumDen);
+    });
+    var totalNum = 0;
+    var totalDen = 0;
+
+	$.each(catNumNum,function() {
+    totalNum += this;
+	});
+	$.each(catNumDen,function() {
+    totalDen += this;
+	});
+
+	wScore = (((totalNum/totalDen)*100).toFixed(2) + "%");
+	console.log(wScore);
+
+	$('td:contains("Total Score: ")').html("Total Score: " + wScore);
+
 });
 
 
