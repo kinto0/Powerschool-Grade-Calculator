@@ -1,3 +1,6 @@
+$(document).ready(function () {
+
+
 // We're going to do a lot of work, so let's get table in a variable
 var table = $('#assignmentScores table');
 // Which column is the score in? Find it here
@@ -58,7 +61,8 @@ wTable += "<tr><td><button type='button' id='button'>Calculate</button></td><td>
 // Calculate the percent - but only if we actually have a numerator / denomenator
 percent = (num && den) ? (num / den) * 100 : 0;
 // And, append the values to the table
-table.append('<tr><td colspan="' + score_column + '" style="text-align:right;">Total:</td><td>' + percent.toFixed(2) + '%</td></tr>');
+//table.append('<tr><td colspan="' + score_column + '" style="text-align:right;">Total:</td><td>' + percent.toFixed(2) + '%</td></tr>');
+$("td:eq(3)").append("(" + percent.toFixed(2) + "%)");
 
 
 //add table to weight grades
@@ -138,8 +142,10 @@ $('#button').click(function() {
 	console.log(wScore);
 
 	$('td:contains("Total Score: ")').html("Total Score: " + wScore);
-
+	$("td:eq(3)").append("(" + wScore.toFixed(2) + "% weighted)");
 });
 
 
-//Thank you to cale_b on stackoverflow for helping
+
+});
+//Thank you to cale_b on stackoverflow for helping initially

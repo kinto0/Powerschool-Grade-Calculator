@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "PowerSchool Grade Calculator",
-  "version": "1.1",
+  "version": "1.2",
   "author": "Kyle Into",
   "description": "An extension that will automatically calculate your grades for powerschool and print them on the page below the assignments",
   "icons":{
@@ -17,8 +17,12 @@
 
   "content_scripts": [
   {
-    "matches": ["https://ps.psharvard.org/*", "https://absis.ab.mec.edu/*"],
+    "matches": ["https://ps.psharvard.org/*/scores*", "https://absis.ab.mec.edu/*/scores*"],
     "js": ["jquery.min.js", "getGrade.js"]
+    },
+    {
+    "matches": ["https://ps.psharvard.org/*/home.html", "https://absis.ab.mec.edu/*/home.html"],
+    "js": ["jquery.min.js", "getGPA.js"]
     }],
 
 
