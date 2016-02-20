@@ -25,7 +25,7 @@ var scoreArrayDen = [];
 $("#assignmentScores").after("<div class='box-round' id='weight-box'><h2><input type='checkbox' id='showWeight' name='weighted' value='weighted'>Weight Grades</input></h2></div>");
 
 //go through the table looking for scores and categories
-var c = 0;
+var c = 1;
 table.find('tr').each(
     function() {
         // get the value from the column that is the "Score" column
@@ -62,7 +62,7 @@ wTable += "<tr><td><button type='button' id='button'>Calculate</button></td><td>
 percent = (num && den) ? (num / den) * 100 : 0;
 // And, append the values to the table
 //table.append('<tr><td colspan="' + score_column + '" style="text-align:right;">Total:</td><td>' + percent.toFixed(2) + '%</td></tr>');
-$("td:eq(3)").append("(" + percent.toFixed(2) + "%)");
+$("td:eq(3)").append("(" + parseFloat(percent).toFixed(2) + "%)");
 
 
 //add table to weight grades
@@ -75,8 +75,12 @@ $('#wTable').hide();
 $("#showWeight").change(function() {
     if ($(this).is(':checked')) {
         $('#wTable').show(300);
+		$("td:eq(3)").html("(" + parseFloat(wScore).toFixed(2) + "% weighted)");
+
     } else {
         $('#wTable').hide(300);
+        $('#weightedGrade').hide(300);
+		$("td:eq(3)").html("(" + parseFloat(percent).toFixed(2) + "%)");
     }
 });
 
@@ -94,13 +98,14 @@ $('#button').click(function() {
         }
     }
     //cat NUMBER NUMERATOR fuck me                                                                                                      
-    var catNumNum = [0, 0, 0, 0];
+    var catNumNum = [];
     //cat number denominator kill me
-    var catNumDen = [0, 0, 0, 0];
+    var catNumDen = [];
+
+    console.log(catNumNum[1]);
 
     //go through every element in the array of categories
     for(j = 0; j < catArray.length; j++){
-
         //for each element, check if it's equal to any from the rubric, it will assign a number based on lessCat
         for(k = 0; k < lessCat.length; k++){
             //Assign an integer to the catNum array for each value of catArray corresponding to the element of lessCat
@@ -108,6 +113,11 @@ $('#button').click(function() {
                 catNum[j]=k;
             }
         }
+    }
+
+    for(c = 0; c < lessCat.length; c++){
+    	catNumNum.push(0);
+    	catNumDen.push(0);
     }
 
     //go through every category
@@ -120,20 +130,25 @@ $('#button').click(function() {
     		}
     	}
     }
-	var c = 0;
-    $("#weight-box input[type=text]").each(function() {
+
+    //for each input box, we will multiply numerator and denominator of each category by this
+    $("#weight-box input[type=text]").each(function(c) {
     	catNumNum[c]*=this.value;
     	catNumDen[c]*=this.value;
     	c++;
-    	console.log(catNumNum);
-    	console.log(catNumDen);
+    	console.log("Numerator of " + lessCat[c] + ": " + catNumNum[c] + ", Denominator of " + lessCat[c] + ": " + catNumDen[c]);
     });
+    console.log()
+
+
     var totalNum = 0;
     var totalDen = 0;
 
+    //add up all numerators
 	$.each(catNumNum,function() {
     totalNum += this;
 	});
+	//add up all denominators
 	$.each(catNumDen,function() {
     totalDen += this;
 	});
@@ -142,7 +157,7 @@ $('#button').click(function() {
 	console.log(wScore);
 
 	$('td:contains("Total Score: ")').html("Total Score: " + wScore);
-	$("td:eq(3)").append("(" + wScore.toFixed(2) + "% weighted)");
+	$("td:eq(3)").html("(" + parseFloat(wScore).toFixed(2) + "% weighted)");
 });
 
 
