@@ -18,20 +18,23 @@ var rows = $("#quickLookup").find("tr[id^='ccid']");
 //if there is q1 grades, get them
 if (table.indexOf('Q1') > -1){
 	quarters = 1;
+	//for each row
 	rows.each(
 	    function(c) {
 	    	//for column 11 (course column)
 	    	$(this).find("td:eq('11')").each(
 	    		function(){
+	    			//add a checkbox next to class
 	    			$(this).prepend("<input class='checkboxClass' type='checkbox' id='" + c + "' checked='checked'>");
 	    		});
 	    	$(this).find("td:eq('12')").each(
 	    		function(){
+	    			//and send grade to grade1 array
 	    			grades1.push($(this).text());
 	    		});
 	});
 }
-
+//if there are q2 grades get them too
 if (table.indexOf('Q2') > -1){
 	quarters = 2;
 	rows.each(
@@ -43,6 +46,7 @@ if (table.indexOf('Q2') > -1){
 	    		});
 	});
 }
+//same for q3
 if (table.indexOf('Q3') > -1){
 	quarters = 3;
 	rows.each(
@@ -54,6 +58,7 @@ if (table.indexOf('Q3') > -1){
 	    		});
 	});
 }
+//and 4
 if (table.indexOf('Q4') > -1){
 	quarters = 4;
 	rows.each(

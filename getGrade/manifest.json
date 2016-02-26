@@ -20,13 +20,13 @@
     "matches": ["https://*/*"],
 	"include_globs":["*powerschool.*", "*ps.*"],
 	"exclude_globs":["*home*"],
-    "js": ["jquery.min.js", "getGrade.js"]
+    "js": ["https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js", "getGrade.js"]
     },
     {
     "matches": ["https://*/*"],
 	"include_globs":["*powerschool.*", "*ps.*"],
 	"exclude_globs":["*scores*"],
-    "js": ["jquery.min.js", "getGPA.js"]
+    "js": ["https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js", "getGPA.js"]
     }],
 
 
