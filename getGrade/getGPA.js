@@ -92,18 +92,19 @@ function getGpa(gradeArray){
 	
 	while (c < gradeArray.length){
 		var gpa = gradeArray[c];
-		if(gpa === "A+" || gpa == "A"){gpa = 4.0}
-	    else if(gpa === "A"){gpa = 3.67}
-	    else if(gpa === "B+"){gpa = 3.33}
-	    else if(gpa === "B"){gpa = 3.00}
-	    else if(gpa === "B-"){gpa = 2.67}
-	    else if(gpa === "C+"){gpa = 2.33}
-	    else if(gpa === "C"){gpa = 2.00}
-	    else if(gpa === "C-"){gpa = 1.67}
-	    else if(gpa === "D+"){gpa = 1.33}
-	    else if(gpa === "D"){gpa = 1.00}
-	    else if(gpa === "D-"){gpa = 0.67}
-	    else if(gpa === "F"){gpa = 0.00}
+		if(gpa === "A+" || gpa >= 97) {gpa = 4.3;}
+		else if(gpa == "A" || gpa >= 93){gpa = 4.0;}
+	    else if(gpa === "A-" || gpa >= 90){gpa = 3.7;}
+	    else if(gpa === "B+" || gpa >= 87){gpa = 3.3;}
+	    else if(gpa === "B" || gpa >= 83){gpa = 3.0;}
+	    else if(gpa === "B-" || gpa >=80){gpa = 2.7;}
+	    else if(gpa === "C+" || gpa >= 77){gpa = 2.3;}
+	    else if(gpa === "C" || gpa >= 74){gpa = 2.0;}
+	    else if(gpa === "C-" || gpa >= 70){gpa = 1.7;}
+	    else if(gpa === "D+" || gpa >= 67){gpa = 1.3;}
+	    else if(gpa === "D" || gpa >= 64){gpa = 1.0;}
+	    else if(gpa === "D-" || gpa >= 60){gpa = 0.7;}
+	    else if(gpa === "F" || gpa <= 60 && gpa >= 1){gpa = 0.00;}
 	    else {gpa = 0; nulls++;}
 	    total+= +gpa;
 		c++;
