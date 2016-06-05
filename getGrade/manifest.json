@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "PowerSchool Grade Calculator",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "author": "Kyle Into",
   "description": "An extension that will automatically calculate your grades for powerschool and print them on the page next to your letter grade. ",
   "icons":{

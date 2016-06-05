@@ -188,6 +188,7 @@ function initAddGrade(){
 		else{
 			table.append("<tr id='newRow" + newRowNum + "' class ='oddRow'><td></td><td></td><td></td><td></td><td align='center'><input type='text' id='text" + newRowNum + "'></td><td width='19'></td><td align='center'><!--<button type='button' id='remove" + newRowNum + "'>X</button>--></td><td width='19'></td><td width='19'></td><td width='19'></td><td width='19'></td><td width='19'></td></tr>");
 		}
+		$("#text" + newRowNum).focus();
 		//remove button doesn't work for some reason: even if it did work it would mess up colors of the oddrows so im taking it out
 		/*$("#remove" + newRowNum).click(function(){
 			$("#newRow" + newRowNum).hide();
