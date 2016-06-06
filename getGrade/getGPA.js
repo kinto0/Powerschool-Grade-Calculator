@@ -14,7 +14,6 @@ var quarters = 0;
 //for each row
 var rows = $("#quickLookup").find("tr[id^='ccid']");
 
-
 //if there is q1 grades, get them
 if (table.indexOf('Q1') > -1){
 	quarters = 1;
@@ -71,16 +70,20 @@ if (table.indexOf('Q4') > -1){
 	});
 }
 
-var theString = "";
-if(quarters >= 1) theString += "<th id='gpa1'>" + getGpa(grades1) + "</th>";
-if(quarters >= 2) theString += "<th id='gpa2'>" + getGpa(grades2) + "</th>";
-if(quarters >= 3) theString += "<th id='gpa3'>" + getGpa(grades3) + "</th>";
-if(quarters >= 4) theString += "<th id='gpa4'>" + getGpa(grades4) + "</th>";
-
-$("tr:eq('2')").after("<tr><th class='right' colspan='12'>GPA (Unweighted out of 4.0): </th>" + theString + "</tr>");
-
-
 function getGpa(gradeArray){
+	if(gradeArray == 1){
+		gradeArray = grades1;
+	}
+	else if(gradeArray == 2){
+		gradeArray = grades2;
+	}
+	else if(gradeArray == 3){
+		gradeArray = grades3;
+	}
+	else {
+		gradeArray = grades4;
+	}
+
 	if(gradeArray[gradeArray.length-1] < 0){
 		 return 0;
 	}
@@ -113,10 +116,28 @@ function getGpa(gradeArray){
 	return total.toFixed(2);
 }
 
+var theString = "";
+
+if(quarters >= 1){
+	theString += "<th id='gpa1'>" + getGpa(1) + "</th>";
+} 
+if(quarters >= 2){
+	theString += "<th id='gpa2'>" + getGpa(2) + "</th>";
+} 
+if(quarters >= 3){
+	theString += "<th id='gpa3'>" + getGpa(3) + "</th>";
+} 
+if(quarters >= 4){
+	theString += "<th id='gpa4'>" + getGpa(4) + "</th>";
+} 
+$("tr:eq('2')").after("<tr><th id='average' class='right' colspan='12'>Unweighted GPA (Average: " + getAverage() + ")</th>" + theString + "</tr>");
+
+
 var gradest1 = grades1.slice(0);
 var gradest2 = grades2.slice(0);
 var gradest3 = grades3.slice(0);
 var gradest4 = grades4.slice(0);
+
 
 $(".checkboxClass").change(function() {
 	var id = $(this).attr('id');
@@ -125,10 +146,12 @@ $(".checkboxClass").change(function() {
   	grades2[id] = gradest2[id];
   	grades3[id] = gradest3[id];
   	grades4[id] = gradest4[id];
-  	$("#gpa1").text(getGpa(grades1));
-  	$("#gpa2").text(getGpa(grades2));
-  	$("#gpa3").text(getGpa(grades3));
-  	$("#gpa4").text(getGpa(grades4));
+  	$("#gpa1").text(getGpa(1));
+  	$("#gpa2").text(getGpa(2));
+  	$("#gpa3").text(getGpa(3));
+  	$("#gpa4").text(getGpa(4));
+  	$("#average").text("Unweighted GPA (Average: " + getAverage() + ")");
+
 
   }
   else{
@@ -138,13 +161,31 @@ $(".checkboxClass").change(function() {
 	grades3[id] = "nothing";
 	grades4[id] = "nothing";
 
-  	$("#gpa1").text(getGpa(grades1));
-  	$("#gpa2").text(getGpa(grades2));
-  	$("#gpa3").text(getGpa(grades3));
-  	$("#gpa4").text(getGpa(grades4));
+  	$("#gpa1").text(getGpa(1));
+  	$("#gpa2").text(getGpa(2));
+  	$("#gpa3").text(getGpa(3));
+  	$("#gpa4").text(getGpa(4));
+  	$("#average").text("Unweighted GPA (Average: " + getAverage() + ")");
+
 
   }
 
 });
+
+
+
+function getAverage(){
+	var averageNum = 0;
+	var matches = 0;
+	var count = 1;
+	while(count < 5){
+		if(getGpa(count) != "NaN"){
+			averageNum += +getGpa(count);
+			matches++;
+		}
+		count++;
+	}
+	return (averageNum/matches).toFixed(2);
+}
 
 });

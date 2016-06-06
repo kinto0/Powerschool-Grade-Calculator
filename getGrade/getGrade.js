@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-
+var gradeBackup = $('td:eq(3)').html();
 var table = $('#assignmentScores table');
 var rowCount = $('#assignmentScores tr').length;
 var newRowNum = 0;
@@ -49,17 +49,14 @@ function getGrades(){
             scoreArrayNum.push(matches[1]);
             den += +matches[2];
             scoreArrayDen.push(matches[2]);
-            console.log("Match 1: " + matches[1] + "; Match 2: " + matches[2]);
         }
         
         //category stuff
         //gets value from category column
-        var category = $(this).find('td:eq(' + cat_column + ')').html();
-        if (c > 0){
-            catArray.push(category);
-        }
+        var category = $(this).find('td:eq(' + cat_column + ')').text();
+        if(category.length > 0) catArray.push(category);
         //if table already includes that category trash it and the != undefined doesn't work for some reason
-        if (!(wTable.indexOf(category) > -1 && category != 'undefined')) {
+        if (!(wTable.indexOf(category) > -1)) {
         	if(c%2==0){
         		wTable += ("<tr class='oddRow'><td>" + category + "</td><td><input type='text' id='" + c + "''></td></tr>");
         	}
@@ -74,11 +71,11 @@ function getGrades(){
 	//finish off table
 	wTable += "<tr><td><button type='button' id='button'>Calculate</button></td><td>Total Score: " + wScore + "</td></tr></tbody></table>";
 	// Calculate the percent - but only if we actually have a numerator / denomenator
-	console.log("Numerator: " + num + " Denominator:  " + den);
+	//console.log("Numerator: " + num + " Denominator:  " + den);
 	percent = (num && den) ? (num / den) * 100 : 0;
 	// And, append the values to the table
 	if($("#final").length > 0){
-		$("#final").html("(" + parseFloat(percent).toFixed(2) + "%)")
+		$("#final").text("(" + parseFloat(percent).toFixed(2) + "%)")
 	}
 	else{
 		$("td:eq(3)").append("<div id='final'>(" + parseFloat(percent).toFixed(2) + "%)</div>");
@@ -88,20 +85,19 @@ function getGrades(){
 function initWeighting(){
 	//add table to weight grades
 	$('#weight-box').append(wTable);
-	//remove first, because it's undefined
-	$('#weight-box tr:eq(1)').remove();
 	
 	$('#wTable').hide();
 	
 	$("#showWeight").change(function() {
 	    if ($(this).is(':checked')) {
 	        $('#wTable').show(300);
-			$("td:eq(3)").html("(" + parseFloat(wScore).toFixed(2) + "% weighted)");
+	        $("#1").focus();
+			$("#final").text(" (" + parseFloat(wScore).toFixed(2) + "% weighted)");
 	
 	    } else {
 	        $('#wTable').hide(300);
 	        $('#weightedGrade').hide(300);
-			$("td:eq(3)").html("(" + parseFloat(percent).toFixed(2) + "%)");
+			$("#final").html(" (" + parseFloat(percent).toFixed(2) + "%)");
 	    }
 	});
 
@@ -112,7 +108,7 @@ function initWeighting(){
 	    //the parallel array that will hold the number of each category at the same index    # of elements in full array
 	    var catNum = [];
 	
-	        //creates lessCat array by excluding catArray values that are used multiple times
+	    //creates lessCat array by excluding catArray values that are used multiple times
 	    for (j = 0; j < catArray.length; j++) {
 	        if($.inArray(catArray[j], lessCat) == -1){
 	            lessCat.push(catArray[j]);
@@ -140,22 +136,27 @@ function initWeighting(){
 	    	catNumDen.push(0);
 	    }
 	
+		// console.log("CatArray: " + catArray);
+		// console.log("scoreArrayNum: " + scoreArrayNum);
+		// console.log("scoreArrayDen: " + scoreArrayDen);
+		// console.log("lessCat: " + lessCat);
+		// console.log("catNum: " + catNum);
 	    //go through every category
 	    for(j = 0; j < catArray.length; j++){
 	    	//if the category is equal to one of the categories, we will add the value of the category to the num/den variables
 	    	for(k = 0; k < lessCat.length; k++){
-	    		if(typeof scoreArrayNum[j] !== 'undefined' &&  catArray[j] === lessCat[catNum[k]]){
+	    		if(typeof scoreArrayNum[j] != 'undefined' &&  catArray[j] === lessCat[catNum[k]]){
 	    			catNumNum[k] += +scoreArrayNum[j];
 	    			catNumDen[k] += +scoreArrayDen[j];
 	    		}
 	    	}
 	    }
-	
 	    //for each input box, we will multiply numerator and denominator of each category by this
-	    $("#weight-box input[type=text]").each(function(c) {
-	    	catNumNum[c]*=this.value;
-	    	catNumDen[c]*=this.value;
-	    	c++;
+	    var count = 0
+	    $("#weight-box input[type=text]").each(function() {
+	    	catNumNum[count] *= (this.value)/100;
+	    	catNumDen[count] *= (this.value)/100;
+	    	count++;
 	    });
 	
 	
@@ -170,11 +171,11 @@ function initWeighting(){
 		$.each(catNumDen,function() {
 	    totalDen += this;
 		});
-	
+
 		wScore = (((totalNum/totalDen)*100).toFixed(2) + "%");
 	
 		$('td:contains("Total Score: ")').html("Total Score: " + wScore);
-		$('td:eq(3)').html("(" + parseFloat(wScore).toFixed(2) + "% weighted)");
+		$('#final').text("(" + parseFloat(wScore).toFixed(2) + "% weighted)");
 	});
 }
 

@@ -1,0 +1,7 @@
+Name + description								Example
+
+catArray: array with every category: 						Discussion,Writing,Classwork,Reading,Reading,Classwork,Discussion
+scoreArrayNum: array with every numerator for each value: 			50,50,60,40,33,40,50
+scoreArrayDen: array with every den for each value: 				50,50,60,40,40,50,50
+lessCat: array that holds each unique category					Discussion,Writing,Classwork,Reading
+catNum: parallel array that holds number of each category at same index		0,1,2,3,3,2,0
