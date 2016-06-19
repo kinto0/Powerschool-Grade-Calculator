@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "PowerSchool Grade Calculator",
   "short_name": "Show Grade",
-  "version": "1.4.3.1",
+  "version": "1.5.1",
   "author": "Kyle Into",
   "description": "An extension that will automatically calculate your grades for powerschool and print them on the page next to your letter grade. ",
   "icons":{
@@ -20,13 +20,13 @@
   {
     "matches": ["https://*/*"],
 	"include_globs":["*powerschool.*", "*ps.*", "*scores.html*", "portal", "k12"],
-	"exclude_globs":["*home*"],
+	"exclude_globs":["*home*", "*attendance*", "*requestform*", "*schoolinformation*"],
     "js": ["jquery-2.2.2.min.js", "getGrade.js"]
     },
   {
     "matches": ["https://*/*"],
 	"include_globs":["*powerschool.*", "*ps.*", "*home.html*", "portal", "k12"],
-	"exclude_globs":["*scores*"],
+  "exclude_globs":["*scores*", "*attendance*", "*requestform*", "*schoolinformation*"],
     "js": ["jquery-2.2.2.min.js", "getGPA.js"]
     }
  ],
