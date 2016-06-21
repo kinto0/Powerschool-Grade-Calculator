@@ -6,6 +6,8 @@ var grades1 = [];
 var grades2 = [];
 var grades3 = [];
 var grades4 = [];
+var grades5 = [];
+var grades6 = [];
 
 var quarters = 0;
 
@@ -16,7 +18,7 @@ var rows = $("#quickLookup").find("tr[id^='ccid']");
 
 //if there is q1 grades, get them
 if (table.indexOf('Q1') > -1){
-	quarters = 1;
+	quarters++;
 	//for each row
 	rows.each(
 	    function(c) {
@@ -35,7 +37,7 @@ if (table.indexOf('Q1') > -1){
 }
 //if there are q2 grades get them too
 if (table.indexOf('Q2') > -1){
-	quarters = 2;
+	quarters++;
 	rows.each(
 	    function() {
 	    	//for column 12 (quarter 2)
@@ -47,7 +49,7 @@ if (table.indexOf('Q2') > -1){
 }
 //same for q3
 if (table.indexOf('Q3') > -1){
-	quarters = 3;
+	quarters++;
 	rows.each(
 	    function() {
 	    	//for column 13 (quarter 3)
@@ -59,13 +61,37 @@ if (table.indexOf('Q3') > -1){
 }
 //and 4
 if (table.indexOf('Q4') > -1){
-	quarters = 4;
+	quarters++;
 	rows.each(
 	    function() {
 	    	//for column 14 (quarter 3)
 	    	$(this).find("td:eq('15')").each(
 	    		function(){
 	    			grades4.push($(this).text());
+	    		});
+	});
+}
+//if there is a exam
+if (table.indexOf('E1') > -1){
+	quarters++;
+	rows.each(
+	    function() {
+	    	//for column 14 (quarter 3)
+	    	$(this).find("td:eq('16')").each(
+	    		function(){
+	    			grades5.push($(this).text());
+	    		});
+	});
+}
+//if there is a year grade
+if (table.indexOf('E1') > -1){
+	quarters++;
+	rows.each(
+	    function() {
+	    	//for column 14 (quarter 3)
+	    	$(this).find("td:eq('17')").each(
+	    		function(){
+	    			grades6.push($(this).text());
 	    		});
 	});
 }
@@ -80,8 +106,14 @@ function getGpa(gradeArray){
 	else if(gradeArray == 3){
 		gradeArray = grades3;
 	}
-	else {
+	else if(gradeArray == 4) {
 		gradeArray = grades4;
+	}
+	else if(gradeArray == 5) {
+		gradeArray = grades5;
+	}
+	else if(gradeArray == 6) {
+		gradeArray = grades6;
 	}
 
 	if(gradeArray[gradeArray.length-1] < 0){
@@ -130,6 +162,12 @@ if(quarters >= 3){
 if(quarters >= 4){
 	theString += "<th id='gpa4'>" + getGpa(4) + "</th>";
 } 
+if(quarters >= 5){
+	theString += "<th id='gpa5'>" + getGpa(4) + "</th>";
+}
+if(quarters >= 6){
+	theString += "<th id='gpa6'>" + getGpa(4) + "</th>";
+}
 $("tr:eq('2')").after("<tr><th id='average' class='right' colspan='12'>Unweighted GPA (Average: " + getAverage() + ")</th>" + theString + "</tr>");
 
 
