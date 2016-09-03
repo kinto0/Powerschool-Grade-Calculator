@@ -20,14 +20,20 @@
   {
     "matches": ["https://*/*"],
 	"include_globs":["*powerschool.*", "*ps.*", "*scores.html*", "portal", "k12"],
-	"exclude_globs":["*home*", "*attendance*", "*requestform*", "*schoolinformation*"],
+	"exclude_globs":["*home*", "*attendance*", "*requestform*", "*schoolinformation*", "*termgrades*"],
     "js": ["jquery-2.2.2.min.js", "getGrade.js"]
     },
   {
     "matches": ["https://*/*"],
 	"include_globs":["*powerschool.*", "*ps.*", "*home.html*", "portal", "k12"],
-  "exclude_globs":["*scores*", "*attendance*", "*requestform*", "*schoolinformation*"],
+  "exclude_globs":["*scores*", "*attendance*", "*requestform*", "*schoolinformation*", "*termgrades*"],
     "js": ["jquery-2.2.2.min.js", "getGPA.js"]
+    },
+  {
+    "matches": ["https://*/*"],
+  "include_globs":["*powerschool.*", "*ps.*", "*termgrades*", "portal", "k12"],
+  "exclude_globs":["*scores*", "*attendance*", "*requestform*", "*schoolinformation*", "*home*"],
+    "js": ["jquery-2.2.2.min.js", "getPastGPA.js"]
     }
  ],
 
