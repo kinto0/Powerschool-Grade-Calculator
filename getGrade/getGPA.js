@@ -8,6 +8,7 @@ var grades3 = [];
 var grades4 = [];
 var grades5 = [];
 var grades6 = [];
+var grades7 = [];
 
 var quarters = 0;
 
@@ -16,85 +17,68 @@ var quarters = 0;
 //for each row
 var rows = $("#quickLookup").find("tr[id^='ccid']");
 
-//if there is q1 grades, get them
-if (table.indexOf('Q1') > -1){
-	quarters++;
-	//for each row
+
+
+if (table.indexOf('Q1') > -1)quarters++;
+if (table.indexOf('Q2') > -1)quarters++;
+if (table.indexOf('Q3') > -1)quarters++;
+if (table.indexOf('Q4') > -1)quarters++;
+if (table.indexOf('E1') > -1)quarters++;
+if (table.indexOf('E2') > -1)quarters++;
+if (table.indexOf('Y1') > -1)quarters++;
+
+
+
+//for each row
+rows.each(
+    function(c) {
+    	//for column 11 (course column)
+    	$(this).find("td:eq('11')").each(
+    		function(){
+    			//add a checkbox next to class
+    			$(this).prepend("<input class='checkboxClass' type='checkbox' id='" + c + "' checked='checked'>");
+    		});
+    	$(this).find("td:eq('12')").each(
+    		function(){
+    			//and send grade to grade1 array
+    			grades1.push($(this).text());
+    		});
+});
+
+table_location = 13;
+for(var i=0; i<quarters; i++){
 	rows.each(
-	    function(c) {
-	    	//for column 11 (course column)
-	    	$(this).find("td:eq('11')").each(
-	    		function(){
-	    			//add a checkbox next to class
-	    			$(this).prepend("<input class='checkboxClass' type='checkbox' id='" + c + "' checked='checked'>");
-	    		});
-	    	$(this).find("td:eq('12')").each(
-	    		function(){
-	    			//and send grade to grade1 array
-	    			grades1.push($(this).text());
-	    		});
+    function() {
+    	//for column 12 (quarter 2)
+    	$(this).find("td:eq('"+table_location+"')").each(
+    		function(){
+    			switch(table_location){
+    				case 13:
+    					grades2.push($(this).text());
+    					break;
+    				case 14:
+    					grades3.push($(this).text());
+    					break;
+    				case 15:
+    					grades4.push($(this).text());
+    					break;
+    				case 16:
+    					grades5.push($(this).text());
+    					break;
+    				case 17:
+    					grades6.push($(this).text());
+    					break;
+    				case 18:
+    					grades7.push($(this).text());
+    					break;
+
+    			}
+    		});
 	});
+	table_location++;
 }
-//if there are q2 grades get them too
-if (table.indexOf('Q2') > -1){
-	quarters++;
-	rows.each(
-	    function() {
-	    	//for column 12 (quarter 2)
-	    	$(this).find("td:eq('13')").each(
-	    		function(){
-	    			grades2.push($(this).text());
-	    		});
-	});
-}
-//same for q3
-if (table.indexOf('Q3') > -1){
-	quarters++;
-	rows.each(
-	    function() {
-	    	//for column 13 (quarter 3)
-	    	$(this).find("td:eq('14')").each(
-	    		function(){
-	    			grades3.push($(this).text());
-	    		});
-	});
-}
-//and 4
-if (table.indexOf('Q4') > -1){
-	quarters++;
-	rows.each(
-	    function() {
-	    	//for column 14 (quarter 3)
-	    	$(this).find("td:eq('15')").each(
-	    		function(){
-	    			grades4.push($(this).text());
-	    		});
-	});
-}
-//if there is a exam
-if (table.indexOf('E1') > -1){
-	quarters++;
-	rows.each(
-	    function() {
-	    	//for column 14 (quarter 3)
-	    	$(this).find("td:eq('16')").each(
-	    		function(){
-	    			grades5.push($(this).text());
-	    		});
-	});
-}
-//if there is a year grade
-if (table.indexOf('E1') > -1){
-	quarters++;
-	rows.each(
-	    function() {
-	    	//for column 14 (quarter 3)
-	    	$(this).find("td:eq('17')").each(
-	    		function(){
-	    			grades6.push($(this).text());
-	    		});
-	});
-}
+
+
 
 function getGpa(gradeArray){
 	if(gradeArray == 1){
@@ -114,6 +98,9 @@ function getGpa(gradeArray){
 	}
 	else if(gradeArray == 6) {
 		gradeArray = grades6;
+	}	
+	else if(gradeArray == 7) {
+		gradeArray = grades7;
 	}
 
 	if(gradeArray[gradeArray.length-1] < 0){
@@ -127,6 +114,9 @@ function getGpa(gradeArray){
 	
 	while (c < gradeArray.length){
 		var gpa = gradeArray[c];
+		if(gpa == undefined){
+			break;
+		}
 		if(gpa.includes("A+") || gpa >= 97) {gpa = 4.3;}
 		else if(gpa.includes("A-") || gpa >= 90){gpa = 3.7;}
 		else if(gpa.includes("A") || gpa >= 93){gpa = 4.0;}
@@ -168,6 +158,9 @@ if(quarters >= 5){
 if(quarters >= 6){
 	theString += "<th id='gpa6'>" + getGpa(4) + "</th>";
 }
+if(quarters >= 7){
+	theString += "<th id='gpa7'>" + getGpa(4) + "</th>";
+}
 $("tr:eq('2')").after("<tr><th id='average' class='right' colspan='12'>Unweighted GPA (Average: " + getAverage() + ")</th>" + theString + "</tr>");
 
 
@@ -175,6 +168,9 @@ var gradest1 = grades1.slice(0);
 var gradest2 = grades2.slice(0);
 var gradest3 = grades3.slice(0);
 var gradest4 = grades4.slice(0);
+var gradest5 = grades5.slice(0);
+var gradest6 = grades6.slice(0);
+var gradest7 = grades7.slice(0);
 
 
 $(".checkboxClass").change(function() {
@@ -184,10 +180,17 @@ $(".checkboxClass").change(function() {
   	grades2[id] = gradest2[id];
   	grades3[id] = gradest3[id];
   	grades4[id] = gradest4[id];
+	grades5[id] = gradest5[id];
+  	grades6[id] = gradest6[id];
+  	grades7[id] = gradest7[id];
+
   	$("#gpa1").text(getGpa(1));
   	$("#gpa2").text(getGpa(2));
   	$("#gpa3").text(getGpa(3));
   	$("#gpa4").text(getGpa(4));
+  	$("#gpa5").text(getGpa(4));
+  	$("#gpa6").text(getGpa(4));
+  	$("#gpa7").text(getGpa(4));
   	$("#average").text("Unweighted GPA (Average: " + getAverage() + ")");
 
 
@@ -198,11 +201,17 @@ $(".checkboxClass").change(function() {
 	grades2[id] = "nothing";
 	grades3[id] = "nothing";
 	grades4[id] = "nothing";
+	grades5[id] = "nothing";
+	grades6[id] = "nothing";
+	grades7[id] = "nothing";
 
   	$("#gpa1").text(getGpa(1));
   	$("#gpa2").text(getGpa(2));
   	$("#gpa3").text(getGpa(3));
   	$("#gpa4").text(getGpa(4));
+  	$("#gpa5").text(getGpa(5));
+  	$("#gpa6").text(getGpa(6));
+  	$("#gpa7").text(getGpa(7));
   	$("#average").text("Unweighted GPA (Average: " + getAverage() + ")");
 
 
@@ -216,9 +225,11 @@ function getAverage(){
 	var averageNum = 0;
 	var matches = 0;
 	var count = 1;
+
 	while(count < 5){
-		if(getGpa(count) != "NaN"){
-			averageNum += +getGpa(count);
+		if($("#gpa"+count).text() != "NaN"){
+
+			averageNum += +$("#gpa"+count).text();
 			matches++;
 		}
 		count++;
